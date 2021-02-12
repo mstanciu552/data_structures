@@ -1,3 +1,7 @@
+/*
+ * TODO: Set up testing instead...maybe with JEST
+ * */
+
 import LinkedList from './DS/linked_list.js';
 import Stack from './DS/stack.js';
 
