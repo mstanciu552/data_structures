@@ -11,7 +11,7 @@ class Node {
 }
 
 
-export default class LinkedList {
+class LinkedList {
     constructor(data) {
         this.head = new Node(data);
         this.next = null;
@@ -26,3 +26,5 @@ export default class LinkedList {
         return this.head.data;
     }
 }
+
+module.exports = { LinkedList };

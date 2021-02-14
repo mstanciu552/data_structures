@@ -2,16 +2,10 @@
  * TODO: Set up testing instead...maybe with JEST
  * */
 
-// const LinkedList = require("./DS/linked_list");
-// const Stack = require("./DS/stack");
-const { Queue } = require("./DS/queue");
+const {search, binary_search} = require('./ALGO/search_algo.js');
 
-// Queue Testing
-let queue = new Queue();
+const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-queue.add(1);
-queue.add(2);
-queue.add(3);
+console.log(search(arr, 3));
 
-console.log(`Queue first element: ${queue.getFirst()}`);
-console.log(`Queue first element: ${queue.getFirst()}`);
+console.log(binary_search(arr, 1));

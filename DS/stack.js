@@ -1,4 +1,4 @@
-export default class Stack {
+class Stack {
     static #data;
     constructor() {
         this.data = [];
@@ -8,7 +8,7 @@ export default class Stack {
         this.data.push(element);
     }
 
-    pop() {
+    pop() { 
         this.data.pop();
     }
 
@@ -17,3 +17,5 @@ export default class Stack {
         return this.data[this.data.length - 1];
     }
 }
+
+module.exports = { Stack };
