@@ -1,11 +1,5 @@
-/*
- * TODO: Set up testing instead...maybe with JEST
- * */
+const { selection_sort } = require("./ALGO/sort");
 
-const {search, binary_search} = require('./ALGO/search_algo.js');
+const arr = [22, 11, 32, 10, 9, 5, 6, 1];
 
-const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-
-console.log(search(arr, 3));
-
-console.log(binary_search(arr, 1));
+console.log(selection_sort(arr, "desc"));

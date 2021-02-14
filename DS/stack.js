@@ -1,5 +1,4 @@
 class Stack {
-    static #data;
     constructor() {
         this.data = [];
     }
