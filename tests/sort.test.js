@@ -1,4 +1,4 @@
-const { bubble_sort, selection_sort } = require("../ALGO/sort");
+const { bubble_sort, selection_sort, insertion_sort, merge_sort } = require("../ALGO/sort");
 
 const arr1 = [22, 11, 45, 67, 32, 1, 5, 7, 8, 10, 3, 4, 4, 3, 22];
 
@@ -14,24 +14,27 @@ for (let i = 0; i < 10; i++) {
     }
     arrays.push(array);
 }
-test("Bubble sort behaviour", () => {
+
+test("Sort behaviour", () => {
     expect(bubble_sort(arr1)).toBe(sortedArray1);
-    expect(bubble_sort(arr1, "desc")).toBe(sortedArray1.reverse());
-
-    for (let i = 0; i < 10; i++) {
-        expect(bubble_sort(arrays[i])).toBe(arrays[i].sort());
-        expect(bubble_sort(arrays[i], "desc")).toBe(arrays[i].sort().reverse());
-    }
-});
-
-test("Selection sort behaviour", () => {
     expect(selection_sort(arr1)).toBe(sortedArray1);
+    expect(insertion_sort(arr1)).toBe(sortedArray1);
+    expect(merge_sort(arr1)).toBe(sortedArray1);;
+    expect (bubble_sort(arr1, "desc")).toBe(sortedArray1.reverse());
     expect(selection_sort(arr1, "desc")).toBe(sortedArray1.reverse());
+    expect(insertion_sort(arr1, "desc")).toBe(sortedArray1.reverse());
+    expect(merge_sort(arr1, "desc")).toBe(sortedArray1.reverse());
 
-    for (let i = 0; i < 10; i++) {
-        expect(selection_sort(arrays[i])).toBe(arrays[i].sort());
-        expect(selection_sort(arrays[i], "desc")).toBe(
-            arrays[i].sort().reverse()
-        );
+    for (let i = 0; i < 10; i++) { 
+        let sorted = arrays[i].sort();
+ 
+        expect(bubble_sort(arrays[i])).toBe(sorted);
+        expect(selection_sort(arrays[i])).toBe(sorted);
+        expect(insertion_sort(arrays[i])).toBe(sorted);
+        expect(merge_sort(arrays[i])).toBe(sorted);
+        expect (bubble_sort(arrays[i], "desc")).toBe(sorted.reverse());
+        expect(selection_sort(arrays[i], "desc")).toBe(sorted.reverse());
+        expect(insertion_sort(arrays[i], "desc")).toBe(sorted.reverse());
+        expect(merge_sort(arrays[i], "desc")).toBe(sorted.reverse());
     }
 });
