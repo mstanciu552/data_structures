@@ -1,20 +1,28 @@
 class Tree {
-    constructor(root) {
-        this.root = root;
-        this.children = [];
-    }
-    addChild(root) {
-        this.children.push(root);
-    }
+  constructor(root, parent = null) {
+    this.root = root;
+    this.children = [];
+    this.parent = parent;
+    this.schema = [];
+    this.setSchema();
+  }
+  addChild(root) {
+    this.children.push(new Tree(root, this));
+  }
 
-    getRoot() {
-        return this.root;
-    }
-    getChildren() {
-        return this.children;
-    }
+  getRoot() {
+    return this.root;
+  }
+
+  getChildren() {
+    return this.children;
+  }
+
+  getParent() {
+    return this.parent;
+  }
 }
 
 module.exports = {
-    Tree
+  Tree,
 };

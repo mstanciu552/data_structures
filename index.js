@@ -2,12 +2,28 @@ const { Tree } = require('./DS/tree.js');
 
 let tree = new Tree(1);
 
-tree.addChild(new Tree(2));
-tree.addChild(new Tree(3));
-tree.addChild(new Tree(4));
+tree.addChild(2);
+tree.addChild(3);
+tree.addChild(4);
 
-tree.getChildren()[0].addChild(new Tree(5));
+tree.getChildren()[0].addChild(5);
+tree.getChildren()[0].addChild(6);
 
-console.log(`${tree.root} + ${tree.children.map((ch) => ch.root)}`);
+tree.getChildren()[1].addChild(7);
+tree.getChildren()[1].addChild(8);
 
-console.log(`${tree.children[0].children[0].root}`);
+tree.getChildren()[2].addChild(9);
+tree.getChildren()[2].addChild(10);
+
+let childrenRoot = tree.children.map((ch) => ch.root);
+
+let secGen = tree.children.map((ch) => ch.children.map((sec) => sec));
+
+console.log(
+  `${Array(childrenRoot.length - 1)
+    .fill('\xa0')
+    .join(' ')}${tree.getRoot()}\n${childrenRoot.join(' ')}\n`
+);
+// Build a matrix of nodes
+
+console.log(secGen);
