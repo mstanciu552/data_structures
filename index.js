@@ -15,15 +15,10 @@ tree.getChildren()[1].addChild(8);
 tree.getChildren()[2].addChild(9);
 tree.getChildren()[2].addChild(10);
 
-let childrenRoot = tree.children.map((ch) => ch.root);
+let childrenRoot = tree.children.map(ch => ch.root);
 
-let secGen = tree.children.map((ch) => ch.children.map((sec) => sec));
+let secGen = tree.children.map(ch => ch.children.map(sec => sec));
 
-console.log(
-  `${Array(childrenRoot.length - 1)
-    .fill('\xa0')
-    .join(' ')}${tree.getRoot()}\n${childrenRoot.join(' ')}\n`
-);
-// Build a matrix of nodes
+// console.log(tree.makeSchema(tree));
 
-console.log(secGen);
+console.log(tree.getLength(tree));
