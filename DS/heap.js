@@ -3,6 +3,11 @@ class Heap {
         this.arr = arr;
         this.order = order;
     }
+        
+    getLength() {
+        return this.arr.length;
+    }
+
     findMin() {
         let min = Math.max(...this.arr);
 
@@ -22,7 +27,7 @@ class Heap {
     }
     
     removeItem(element) {
-        if (this.arr.length > 0) {
+        if (this.arr.length >= 0) {
             const index = this.arr.indexOf(element);
             if(index !== -1) this.arr.splice(index, 1);
         }

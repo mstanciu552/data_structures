@@ -126,15 +126,10 @@ function quick_sort(arr, low, high, dir = "asc") {
   return dir === "asc" ? arr : arr.reverse();
 }
 
-function heap_sort(arr) {
-  return arr;
-}
-
 module.exports = {
   bubble_sort,
   selection_sort,
   merge_sort,
-  heap_sort,
   insertion_sort,
   quick_sort,
 };
