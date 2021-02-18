@@ -21,4 +21,4 @@ let secGen = tree.children.map(ch => ch.children.map(sec => sec));
 
 // console.log(tree.makeSchema(tree));
 
-console.log(tree.getLength(tree));
+console.log(tree.getLength());

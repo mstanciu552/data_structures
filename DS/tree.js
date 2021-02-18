@@ -13,18 +13,13 @@ class Tree {
   addChild(root) {
     this.children.push(new Tree(root, this));
   }
-  // TODO: Improve this for max length
-  getLength(node) {
+
+  getLength(node = this) {
     if (node.children.length === 0 || !node.children) return 1;
-    return node.length + node.getLength(node.children[0]);
+    return 1 + Math.max(...node.children.map(ch => this.getLength(ch)));
   }
 
-  makeSchema(node) {
-    this.schema.push([node.root]);
-    this.schema.push(node.getChildrenValues());
-    node.children.map(ch => this.makeSchema(ch));
-    return this.schema.filter(arr => arr.length !== 0);
-  }
+  makeSchema(node = this) {}
 
   getRoot() {
     return this.root;
