@@ -15,10 +15,4 @@ tree.getChildren()[1].addChild(8);
 tree.getChildren()[2].addChild(9);
 tree.getChildren()[2].addChild(10);
 
-let childrenRoot = tree.children.map(ch => ch.root);
-
-let secGen = tree.children.map(ch => ch.children.map(sec => sec));
-
-// console.log(tree.makeSchema(tree));
-
-console.log(tree.getLength());
+console.log(tree.getStructAsValues());

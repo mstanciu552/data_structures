@@ -1,14 +1,10 @@
-/*
- TODO: Add tree schema
- * */
-
 class Tree {
   constructor(root, parent = null) {
     this.root = root;
     this.children = [];
     this.parent = parent;
-    this.schema = [];
-    this.length = 1;
+    this.structure = {};
+    this.makeSchema();
   }
   addChild(root) {
     this.children.push(new Tree(root, this));
@@ -19,7 +15,28 @@ class Tree {
     return 1 + Math.max(...node.children.map(ch => this.getLength(ch)));
   }
 
-  makeSchema(node = this) {}
+  makeSchema(node = this) {
+    let { root, children } = node;
+    let parentStructure = node.parent ? node.parent.structure : null;
+    node.structure = {
+      ...parentStructure,
+      ...node.structure,
+      [root]: children,
+    };
+  }
+
+  getStructAsValues(node = this) {
+    let { root, structure, children } = node;
+
+    if (!children || children.length === 0) return {};
+
+    return {
+      [root]: structure[root].map(val => val.root),
+      ch: children.map(ch => {
+        return { [ch.root]: [ch.getStructAsValues()] };
+      }),
+    };
+  }
 
   getRoot() {
     return this.root;
