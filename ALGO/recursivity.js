@@ -9,16 +9,27 @@ function fibonnaci(ord) {
   return fibonnaci(ord - 1) + fibonnaci(ord - 2);
 }
 
-function all_palindroms(str) {}
+function palindrome(str, start = 0, end = str.length - 1) {
+  if (start === end) return true;
+  if (str[start] !== str[end]) return false;
+  if (start < end + 1) return palindrome(str, start + 1, end - 1);
+  return true;
+}
 
-function delete_k_from_ll(k) {}
-
-function tower_of_hanoi() {}
+function delete_k_from_ll(ll, k) {
+  if (k < 1) return ll.head;
+  if (!ll) return null;
+  if (k === 1) {
+    ll.head = ll.next;
+    return ll.head;
+  }
+  ll.next = delete_k_from_ll(ll.next, k - 1);
+  return ll;
+}
 
 module.exports = {
   factorial,
   fibonnaci,
-  all_palindroms,
+  palindrome,
   delete_k_from_ll,
-  tower_of_hanoi,
 };
