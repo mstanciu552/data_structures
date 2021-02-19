@@ -34,6 +34,6 @@ test('Tree behaviour', () => {
 
   expect(tree.getLength()).toBe(3);
 
-  // Tree schema testing
+  // Tree structure testing
   expect(tree.structure[tree.root].length).toBe(3);
 });
