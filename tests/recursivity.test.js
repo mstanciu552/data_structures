@@ -37,7 +37,6 @@ test('Recursivity behaviour', () => {
     ];
     for (let str in stringsTrue) expect(palindrome(str)).toBe(true);
     for (let i = 0; i < stringsFalse.length; i++) {
-      console.log(stringsFalse[i]);
       expect(palindrome(stringsFalse[i])).toBe(false);
     }
   })();
