@@ -31,19 +31,109 @@ function queens(n = 4) {
   })();
 }
 // Comb n/k
-function perm(mul) {
+function perm(mul, s = 0, e = mul.length) {
   let solution = [];
 
-  (function permutations(mul, start = 0, end = mul.length) {
-    if (start === end) console.log(mul);
+  (function permutations(mul, start = s, end = e) {
+    if (start === end) solution.push([...mul]);
+
     for (let i = start; i < end; i++) {
       [mul[start], mul[i]] = [mul[i], mul[start]];
       permutations(mul, start + 1, end);
       [mul[start], mul[i]] = [mul[i], mul[start]];
     }
-  })(mul)
-  
+  })(mul);
+
   return solution;
 }
 
-module.exports = { queens, perm };
+function sudoku() {
+  const WIDTH = 9;
+  const HEIGHT = 9;
+  const board = Array(HEIGHT)
+    .fill(0)
+    .map(el => Array(WIDTH).fill(0));
+
+  function print_board() {
+    // Upper border
+    console.log('-----------------------------------------');
+    for (let i = 0; i < WIDTH; i++) {
+      // Left border
+      process.stdout.write('| ');
+
+      for (let j = 0; j < HEIGHT; j++) {
+        process.stdout.write(`${board[i][j] !== 0 ? board[i][i] : ' '} | `);
+        if ((j + 1) % 3 === 0 && j + 1 !== HEIGHT) process.stdout.write('| ');
+      }
+
+      // Check if it's a third row to make it double
+      if ((i + 1) % 3 === 0 && i + 1 !== WIDTH)
+        process.stdout.write('\n-----------------------------------------');
+      console.log('\n-----------------------------------------');
+    }
+  }
+
+  function get_input() {
+    const prompt = require('prompt');
+    const colors = require('colors/safe');
+
+    const prompt_settings = {
+      properties: {
+        action: {
+          pattern: /^(p|P|s|S])$/,
+          message: "Please choose either 'p'(play) or 's'(solve)...",
+          required: true,
+        },
+        row: {
+          pattern: /^[1-9]$/,
+          message:
+            'The field can only contain a number that specifies the row or column of your choice',
+          required: true,
+        },
+        col: {
+          pattern: /^[1-9]$/,
+          message:
+            'The field can only contain a number that specifies the row or column of your choice',
+          required: true,
+        },
+        value: {
+          required: true,
+          pattern: /^[1-9]$/,
+          message:
+            'The field can only contain a value to place at the specified position',
+        },
+      },
+    };
+
+    console.log(
+      `Please input a position you want to replace(by a row and a column) and a value to be replaced with...`
+    );
+
+    // Prompt handling
+    prompt.message = colors.magenta('Sudoku');
+    prompt.delimiter = colors.green(' > ');
+    prompt.start();
+
+    prompt.get(prompt_settings, (err, result) => {
+      if (err) {
+        return (err => {
+          console.error(err);
+          return 1;
+        })(err);
+      }
+
+      const { row, col, value } = result;
+
+      board[row - 1][col - 1] = value;
+    });
+  }
+
+  (function game_loop() {
+    while (board.map(row => row.includes(0))) {
+      print_board();
+      get_input();
+    }
+  })();
+}
+
+module.exports = { queens, perm, sudoku };

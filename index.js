@@ -1,3 +1,3 @@
-const { perm } = require('./ALGO/backtracking');
+const { sudoku } = require('./ALGO/backtracking');
 
-console.log(perm([1, 2, 3]));
+sudoku();
