@@ -56,10 +56,11 @@ function sudoku() {
 
   function print_board() {
     // Upper border
-    console.log('-----------------------------------------');
+    console.log('    1   2   3     4   5   6     7   8   9');
+    console.log('  ------------- ------------- -------------');
     for (let i = 0; i < WIDTH; i++) {
       // Left border
-      process.stdout.write('| ');
+      process.stdout.write(`${i + 1} | `);
 
       for (let j = 0; j < HEIGHT; j++) {
         process.stdout.write(`${board[i][j] !== 0 ? board[i][i] : ' '} | `);
@@ -68,8 +69,8 @@ function sudoku() {
 
       // Check if it's a third row to make it double
       if ((i + 1) % 3 === 0 && i + 1 !== WIDTH)
-        process.stdout.write('\n-----------------------------------------');
-      console.log('\n-----------------------------------------');
+        process.stdout.write('\n  ------------- ------------- -------------');
+      console.log('\n  ------------- ------------- -------------');
     }
   }
 
@@ -80,9 +81,10 @@ function sudoku() {
     const prompt_settings = {
       properties: {
         action: {
-          pattern: /^(p|P|s|S])$/,
-          message: "Please choose either 'p'(play) or 's'(solve)...",
-          required: true,
+          description: 'Action[P(lay)/s(olve)](default=P(play))',
+          pattern: /^[p|P|s|S| ]$/,
+          message: "Please choose either 'p/P'(play) or 's/S'(solve)...",
+          required: false,
         },
         row: {
           pattern: /^[1-9]$/,
@@ -122,18 +124,26 @@ function sudoku() {
         })(err);
       }
 
-      const { row, col, value } = result;
+      const { action, row, col, value } = result;
+      if (action === ' ') action = 'p';
 
       board[row - 1][col - 1] = value;
+
+      console.clear();
+      game_loop();
     });
   }
 
-  (function game_loop() {
+  function game_logic() {}
+
+  function game_loop() {
     while (board.map(row => row.includes(0))) {
       print_board();
       get_input();
+      break;
     }
-  })();
+  }
+  game_loop();
 }
 
 module.exports = { queens, perm, sudoku };
