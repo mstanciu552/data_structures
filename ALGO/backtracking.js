@@ -67,6 +67,35 @@ function sudoku() {
     [2, 3, 9, /**/ 8, 4, 1, /**/ 5, 6, 7],
   ];
 
+  const solve_board_test = [
+    [3, 0, 6, 5, 0, 8, 4, 0, 0],
+    [5, 2, 0, 0, 0, 0, 0, 0, 0],
+    [0, 8, 7, 0, 0, 0, 0, 3, 1],
+    [0, 0, 3, 0, 1, 0, 0, 8, 0],
+    [9, 0, 0, 8, 6, 3, 0, 0, 5],
+    [0, 5, 0, 0, 9, 0, 6, 0, 0],
+    [1, 3, 0, 0, 0, 0, 2, 5, 0],
+    [0, 0, 0, 0, 0, 0, 0, 7, 4],
+    [0, 0, 5, 2, 0, 6, 3, 0, 0],
+  ];
+
+  function solve(bd, row, col) {
+    if (row === WIDTH - 1 && col === HEIGHT) return true;
+    if (col === HEIGHT) {
+      row++;
+      col = 0;
+    }
+    if (bd[row][col] > 0) return solve(bd, row, col + 1);
+    for (let num = 1; num <= 9; num++) {
+      if (is_valid(bd, row, col, num)) {
+        bd[row][col] = num;
+        if (solve(bd, row, col + 1)) return true;
+      }
+      bd[row][col] = 0;
+    }
+    return false;
+  }
+
   function print_board(bd, val_obj) {
     const { value, validity } = val_obj;
 
@@ -114,10 +143,10 @@ function sudoku() {
           required: true,
         },
         value: {
-          required: true,
           pattern: /^[0-9]$/,
           message:
             'The field can only contain a value to place at the specified position',
+          required: true,
         },
       },
     };
@@ -141,6 +170,13 @@ function sudoku() {
 
       const { action, row, col, value } = result;
       if (action === ' ') action = 'p';
+
+      if (action === 's') {
+        solve(bd, 0, 0);
+        print_board(bd, {});
+        return;
+      }
+
       let value_object = {
         value,
         validity: is_valid(bd, row - 1, col - 1, value),
@@ -152,9 +188,6 @@ function sudoku() {
         console.log('Congratulations! You completed the puzzle correctly!');
         return;
       }
-
-      print_board(bd, value_object);
-
       game_loop(bd, value_object);
     });
   }
@@ -205,7 +238,7 @@ function sudoku() {
     return sq;
   }
   // * Checks the validity of a position
-  function is_valid(bd, row, col, value) {
+  function is_safe(bd, row, col, value) {
     // * Row validity
     let count = 0;
     for (let i = 0; i < WIDTH; i++) if (bd[row][i] === value) count++;
@@ -218,7 +251,25 @@ function sudoku() {
 
     // * Square validity
     const square = iterate_square(bd, get_square(row, col));
-    // if (!valid_square(square)) return false;
+    if (!valid_square(square)) return false;
+
+    return true;
+  }
+
+  function is_valid(grid, row, col, num) {
+    // Check col
+    for (let x = 0; x <= 8; x++) if (grid[row][x] == num) return false;
+
+    // Check col
+    for (let x = 0; x <= 8; x++) if (grid[x][col] == num) return false;
+
+    // * Check square
+    let startRow = row - (row % 3),
+      startCol = col - (col % 3);
+
+    for (let i = 0; i < 3; i++)
+      for (let j = 0; j < 3; j++)
+        if (grid[i + startRow][j + startCol] == num) return false;
 
     return true;
   }
@@ -264,7 +315,7 @@ function sudoku() {
     if (game_logic(bd))
       console.log('Congratulations! You completed the puzzle correctly!');
   }
-  game_loop(board_test);
+  game_loop(solve_board_test);
 }
 
 module.exports = { queens, perm, sudoku };
