@@ -51,27 +51,25 @@ function sudoku() {
   const WIDTH = 9;
   const HEIGHT = 9;
   const board = Array(HEIGHT)
-    .fill(0)
+    .fill(1)
     .map(el => Array(WIDTH).fill(0));
   const board_test = [
-    [1, 0, 0, /**/ 0, 0, 0, /**/ 0, 0, 0],
-    [0, 0, 0, /**/ 0, 0, 0, /**/ 0, 0, 0],
-    [0, 0, 0, /**/ 0, 0, 0, /**/ 0, 0, 0],
+    [8, 2, 7, /**/ 1, 5, 4, /**/ 3, 9, 6],
+    [9, 6, 5, /**/ 3, 2, 7, /**/ 1, 4, 8],
+    [3, 4, 1, /**/ 6, 8, 9, /**/ 7, 5, 2],
     // ---------------------------------
-    [0, 0, 0, /**/ 0, 0, 0, /**/ 0, 0, 0],
-    [0, 0, 0, /**/ 0, 0, 0, /**/ 0, 0, 0],
-    [0, 0, 0, /**/ 0, 0, 0, /**/ 0, 0, 0],
+    [5, 9, 3, /**/ 4, 6, 8, /**/ 2, 7, 1],
+    [4, 7, 2, /**/ 5, 1, 3, /**/ 6, 8, 9],
+    [6, 1, 8, /**/ 9, 7, 2, /**/ 4, 3, 5],
     // ---------------------------------
-    [0, 0, 0, /**/ 0, 0, 0, /**/ 0, 0, 0],
-    [0, 0, 0, /**/ 0, 0, 0, /**/ 0, 0, 0],
-    [0, 0, 0, /**/ 0, 0, 0, /**/ 0, 0, 0],
+    [7, 8, 6, /**/ 2, 3, 5, /**/ 9, 1, 4],
+    [1, 5, 4, /**/ 7, 9, 6, /**/ 8, 2, 3],
+    [2, 3, 9, /**/ 8, 4, 1, /**/ 5, 6, 7],
   ];
 
-  function print_board(bd, val) {
-    const colors = require('colors/safe');
+  function print_board(bd, val_obj) {
+    const { value, validity } = val_obj;
 
-    // Clear the screen
-    console.clear();
     // Upper border
     console.log('    1   2   3     4   5   6     7   8   9');
     console.log('  ------------- ------------- -------------');
@@ -80,19 +78,7 @@ function sudoku() {
       process.stdout.write(`${i + 1} | `);
 
       for (let j = 0; j < HEIGHT; j++) {
-        // TODO Find the bug that makes is_valid return false
-        // console.log(
-        //   `Validity of ${[i, j, bd[i][j]]} is ${is_valid(bd, i, j, bd[i][j])}`
-        // );
-        process.stdout.write(
-          `${
-            bd[i][j] !== 0
-              ? is_valid(bd, i, j, bd[i][j])
-                ? colors.green(bd[i][j])
-                : colors.red(bd[i][j])
-              : ' '
-          } | `
-        );
+        process.stdout.write(`${bd[i][j] !== 0 ? bd[i][j] : ' '} | `);
         if ((j + 1) % 3 === 0 && j + 1 !== HEIGHT) process.stdout.write('| ');
       }
 
@@ -101,7 +87,6 @@ function sudoku() {
         process.stdout.write('\n  ------------- ------------- -------------');
       console.log('\n  ------------- ------------- -------------');
     }
-    console.log(colors.green(1));
   }
 
   function get_input(bd) {
@@ -156,11 +141,21 @@ function sudoku() {
 
       const { action, row, col, value } = result;
       if (action === ' ') action = 'p';
+      let value_object = {
+        value,
+        validity: is_valid(bd, row - 1, col - 1, value),
+      };
+      bd[row - 1][col - 1] = parseInt(value_object.value);
 
-      bd[row - 1][col - 1] = value;
+      // * Check for winners every iteration of the game
+      if (game_logic(bd)) {
+        console.log('Congratulations! You completed the puzzle correctly!');
+        return;
+      }
 
-      console.clear();
-      game_loop(bd);
+      print_board(bd, value_object);
+
+      game_loop(bd, value_object);
     });
   }
 
@@ -204,35 +199,70 @@ function sudoku() {
 
     for (let i in rows) {
       let arr = [];
-      for (let j in cols) {
-        arr.push(bd[i][j]);
-      }
+      for (let j in cols) arr.push(bd[i][j]);
       sq.push(arr);
     }
     return sq;
   }
-
+  // * Checks the validity of a position
   function is_valid(bd, row, col, value) {
-    for (let i = 0; i < WIDTH; i++) {
-      if (row !== i) if (bd[row][i] === value) return false;
-      if (col !== i) if (bd[i][col] === value) return false;
-    }
+    // * Row validity
+    let count = 0;
+    for (let i = 0; i < WIDTH; i++) if (bd[row][i] === value) count++;
+    if (count !== 1) return false;
+
+    // * Column validity
+    count = 0;
+    for (let i = 0; i < HEIGHT; i++) if (bd[i][col] === value) count++;
+    if (count !== 1) return false;
+
+    // * Square validity
     const square = iterate_square(bd, get_square(row, col));
-    if (square.map(r => r.includes(value)).includes(true)) return false;
+    // if (!valid_square(square)) return false;
 
     return true;
   }
 
-  console.log(is_valid(board_test, 0, 0, 1));
+  // * Checks if a square is valid alone
+  function valid_square(square) {
+    const array_of_numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    if (square.length === 9)
+      for (let i = 0; i < 9; i++)
+        if (array_of_numbers.includes(square[i]))
+          array_of_numbers.splice(array_of_numbers.indexOf(square[i]), 1);
+        else return false;
+    else
+      for (let i = 0; i < 3; i++)
+        for (let j = 0; j < 3; j++)
+          if (array_of_numbers.includes(square[i][j]))
+            array_of_numbers.splice(array_of_numbers.indexOf(square[i][j]), 1);
+          else return false;
 
-  function game_logic() {}
+    return true;
+  }
 
-  function game_loop(bd) {
+  function game_logic(bd) {
+    if (bd.map(row => row.includes(0)).includes(true)) return false;
+
+    for (let i = 1; i <= 9; i++)
+      if (!valid_square(iterate_square(bd, i))) return false;
+
+    // * Iterate through the board and check to see if each value is valid
+    for (let i = 0; i < WIDTH; i++)
+      for (let j = 0; j < HEIGHT; j++)
+        if (!is_valid(bd, i, j, bd[i][j])) return false;
+
+    return true;
+  }
+
+  function game_loop(bd, val_obj = { value: 0, validity: true }) {
     while (bd.map(row => row.includes(0)).includes(true)) {
-      print_board(bd);
+      print_board(bd, val_obj);
       get_input(bd);
       break;
     }
+    if (game_logic(bd))
+      console.log('Congratulations! You completed the puzzle correctly!');
   }
   game_loop(board_test);
 }
