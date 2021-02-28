@@ -1,29 +1,30 @@
-
-class Node {
+class LinkedList {
+    #ll;
     constructor(data, next = null) {
         this.data = data;
-        this.next = next
+        this.next = next !== null ? new LinkedList(next) : null;
+        this.#ll = this;
     }
-
-    setNext(next) {
-        this.next = next;
+    setNext(val) {
+        this.#ll.next = new LinkedList(val);
+        this.#ll = this.#ll.next; 
     }
-}
-
-
-class LinkedList {
-    constructor(data) {
-        this.head = new Node(data);
-        this.next = null;
+    static convertArray(arr) {
+        let res = new LinkedList(arr[0]);
+        let ll = res;
+        for (let i = 1; i < arr.length; i++) {
+            ll.setNext(arr[i]);
+            ll = ll.next;
+        }
+        return res;           
     }
-
-    setNext(data) {
-        this.next = new LinkedList(data);
-        this.head.setNext(new Node(data));
-    }
-
-    getData() {
-        return this.head.data;
+    getArray(ll = this) {
+        let arr = [];
+        while(ll) {
+            arr.push(ll.data);
+            ll = ll.next;
+        }
+        return arr;
     }
 }
 
