@@ -2,17 +2,15 @@ const { LinkedList } = require('../DS/linked_list.js');
 
 
 function reverse_ll(ll) {
-    if (ll) {
-        let prev = null, curr = ll, next = null;
+    let prev = null, curr = ll, next = null;
 
-        while(curr) {
-            next = curr.next;
-            curr.next = prev;
-            prev = curr;
-            curr = next;
-        }
-        return prev;
+    while(curr) {
+        next = curr.next;
+        curr.next = prev;
+        prev = curr;
+        curr = next;
     }
+    return prev;
 }
 
 // * Indexing starts at 0
@@ -21,7 +19,9 @@ function get_nth(ll, n) {
         if (n === 0) return ll.data;
         n--;
         ll = ll.next;
+        console.log(n);
     }
+
 }
 
 // console.log(get_nth(LinkedList.convertArray([1, 2, 3, 4, 5]), 2))
