@@ -1,9 +1,7 @@
-// const { sudoku } = require('./ALGO/backtracking');
+const { BinaryTree } = require('./DS/binary_tree.js');
 
-// sudoku();
+let bt = new BinaryTree(1);
+bt.setLeft(2);
+bt.setRight(3);
 
-const { LinkedList } = require('./DS/linked_list.js');
-const { reverse_ll } = require('./ALGO/linked_list.js');
-
-let ll = LinkedList.convertArray([1, 2, 3, 4, 5]);
-console.log(reverse_ll(ll).getArray());
+console.log(bt);
