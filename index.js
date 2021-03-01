@@ -4,4 +4,5 @@ let bt = new BinaryTree(1);
 bt.setLeft(2);
 bt.setRight(3);
 
-console.log(bt);
+bt.left.setRight(4);
+bt.right.setLeft(5);

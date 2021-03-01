@@ -13,9 +13,18 @@ class BinaryTree {
     this.right = new BinaryTree(val);
   }
 
-  getArray() {}
+  // * BFS
+  getArray(node = this, arr = [this.val]) {
+    if (!node) return;
 
-  static convertArray() {}
+    if (node.left) arr.push(node.left.val);
+    if (node.right) arr.push(node.right.val);
+
+    node.getArray(node.left, arr);
+    node.getArray(node.right, arr);
+
+    return arr;
+  }
 }
 
 module.exports = { BinaryTree };
