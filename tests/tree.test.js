@@ -1,5 +1,6 @@
-const { BinaryTree } = require('../DS/binary_tree');
 const { Tree } = require('../DS/tree');
+const { BinaryTree } = require('../DS/binary_tree');
+const { convertSortedArrayToTree } = require('../ALGO/tree');
 
 test('Tree behaviour', () => {
   let tree = new Tree(1);
@@ -39,6 +40,8 @@ test('Tree behaviour', () => {
   expect(tree.structure[tree.root].length).toBe(3);
 });
 
+test('Tree algorithms behaviour', () => {});
+
 test('Binary Tree behaviour', () => {
   let bt = new BinaryTree(1);
 
@@ -62,4 +65,17 @@ test('Binary Tree behaviour', () => {
   expect(bt.right.right.val).toEqual(7);
 
   expect(bt.getArray()).toEqual([1, 2, 3, 4, 5, 6, 7]);
+});
+
+test('Binary Tree algorithms behaviour', () => {
+  const tests = [
+    [-10, -5, 0, 3, 9],
+    [1, 3],
+    [-2, -1, 0, 1, 2],
+  ];
+  for (let i = 0; i < tests.length; i++) {
+    expect(convertSortedArrayToTree(tests[0]).getArray().sort()).toEqual(
+      tests[0].sort()
+    );
+  }
 });
