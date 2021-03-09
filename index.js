@@ -1,8 +1,5 @@
-const { BinaryTree } = require('./DS/binary_tree.js');
+const { Set } = require('./DS/Set');
 
-let bt = new BinaryTree(1);
-bt.setLeft(2);
-bt.setRight(3);
+let set = Set.convertToSet([1, 1, 2, 3, 4, 4]);
 
-bt.left.setRight(4);
-bt.right.setLeft(5);
+console.log(set);
