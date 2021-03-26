@@ -1,4 +1,4 @@
-const { search, binary_search } = require('../ALGO/search_algo.js');
+import {search, binary_search} from '../ALGO/search_algo.js';
 
 const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
