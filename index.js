@@ -16,17 +16,14 @@
 
 // console.log(mh.arr);
 
-import Tree from './DS/tree.js';
+import BinaryTree from './DS/binary_tree.js';
 import { preOrderTraversal } from './ALGO/tree.js';
 
-let tree = new Tree(1);
-tree.addChild(2);
-tree.addChild(3);
-tree.addChild(4);
-tree.addChild(5);
-tree.children[0].addChild(6);
-tree.children[1].addChild(7);
-tree.children[2].addChild(8);
-tree.children[3].addChild(9);
+let tree = new BinaryTree(1);
+tree.setLeft(2);
+tree.setRight(3);
+
+tree.left.setLeft(4);
+tree.left.setRight(5);
 
 console.log(preOrderTraversal(tree));

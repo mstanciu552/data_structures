@@ -18,21 +18,35 @@ export function convertSortedArrayToTree(arr) {
 // <l> n r
 export function preOrderTraversal(tree) {
     let arr = [];
-    if (tree === null) return;
+    if (!tree) return [];
 
-    let root = tree;
-    for (let i = 0; i < root.children.length; i++) {
-        // arr.push(root.children[i].root);
-        if (i === Math.floor((root.children.length - 1) / 2))
-            arr.push(root.root);
-        arr = [...arr, preOrderTraversal(root.children[i])];
-    }
+    arr.push(tree.val);
+    arr = arr.concat(preOrderTraversal(tree.left));
+    arr = arr.concat(preOrderTraversal(tree.right));
 
     return arr;
 }
 
 // l <n> r
-export function inOrderTraversal(tree) {}
+export function inOrderTraversal(tree) {
+    let arr = [];
+    if (!tree) return [];
+
+    arr = arr.concat(preOrderTraversal(tree.left));
+    arr.push(tree.val);
+    arr = arr.concat(preOrderTraversal(tree.right));
+
+    return arr;
+}
 
 // l n <r>
-export function postOrderTraversal(tree) {}
+export function postOrderTraversal(tree) {
+    let arr = [];
+    if (!tree) return [];
+
+    arr = arr.concat(preOrderTraversal(tree.left));
+    arr = arr.concat(preOrderTraversal(tree.right));
+    arr.push(tree.val);
+
+    return arr;
+}
