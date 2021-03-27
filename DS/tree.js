@@ -16,7 +16,7 @@ export default class Tree {
     }
 
     makeSchema(node = this) {
-        let {root, children} = node;
+        let { root, children } = node;
         let parentStructure = node.parent ? node.parent.structure : null;
         node.structure = {
             ...parentStructure,
@@ -26,14 +26,14 @@ export default class Tree {
     }
 
     getStructAsValues(node = this) {
-        let {root, structure, children} = node;
+        let { root, structure, children } = node;
 
         if (!children || children.length === 0) return {};
 
         return {
             [root]: structure[root].map(val => val.root),
             ch: children.map(ch => {
-                return {[ch.root]: [ch.getStructAsValues()]};
+                return { [ch.root]: [ch.getStructAsValues()] };
             }),
         };
     }
@@ -54,4 +54,3 @@ export default class Tree {
         return this.parent;
     }
 }
-

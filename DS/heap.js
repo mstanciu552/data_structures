@@ -1,3 +1,12 @@
+/*
+ * For binary Heaps
+ *      10
+ *  2       4
+ *1  0     3  2
+ * ==> [10, 2, 4, 1, 0, 3, 2]
+ * ==> parent(i) => children(2 * i + 1, 2 * i + 2)
+ * */
+
 class Heap {
     constructor(capacity) {
         if (this.constructor === Heap)
