@@ -1,7 +1,7 @@
-export function bubble_sort(arr, dir = "asc") {
+export function bubble_sort(arr, dir = 'asc') {
     for (let i = 0; i < arr.length - 1; i++)
         for (let j = i + 1; j < arr.length; j++)
-            if (dir === "asc")
+            if (dir === 'asc')
                 if (arr[i] <= arr[j]) {
                     let temp = arr[i];
                     arr[i] = arr[j];
@@ -14,16 +14,16 @@ export function bubble_sort(arr, dir = "asc") {
     return arr;
 }
 
-export function insertion_sort(arr, dir = "asc") {
+export function insertion_sort(arr, dir = 'asc') {
     for (let i = 1; i < arr.length; i++) {
         let key = arr[i];
         let j = i - 1;
-        if (dir === "asc")
+        if (dir === 'asc')
             while (j >= 0 && key < arr[j]) {
                 arr[j + 1] = arr[j];
                 j -= 1;
             }
-        else if (dir === "desc")
+        else if (dir === 'desc')
             while (j >= 0 && key > arr[j]) {
                 arr[j + 1] = arr[j];
                 j -= 1;
@@ -34,7 +34,7 @@ export function insertion_sort(arr, dir = "asc") {
     return arr;
 }
 
-export function merge_sort(arr, dir = "asc") {
+export function merge_sort(arr, dir = 'asc') {
     if (arr.length <= 1) return arr;
 
     let mid = arr.length / 2;
@@ -72,17 +72,17 @@ export function merge_sort(arr, dir = "asc") {
         k++;
     }
 
-    return dir === "asc" ? arr : arr.reverse();
+    return dir === 'asc' ? arr : arr.reverse();
 }
 
-export function selection_sort(arr, dir = "asc") {
+export function selection_sort(arr, dir = 'asc') {
     for (let i = 0; i < arr.length - 1; i++) {
         let index = 0;
         let min = Math.max(...arr);
         let max = Math.min(...arr);
         // Finding the minimum or maximum
         for (let j = i; j < arr.length; j++)
-            if (dir === "asc") {
+            if (dir === 'asc') {
                 if (min > arr[j]) {
                     min = arr[j];
                     index = j;
@@ -100,7 +100,7 @@ export function selection_sort(arr, dir = "asc") {
     return arr;
 }
 
-export function quick_sort(arr, low, high, dir = "asc") {
+export function quick_sort(arr, low, high, dir = 'asc') {
     function partition(arr, l, h) {
         let pivot = arr[h];
         let i = l - 1;
@@ -123,5 +123,5 @@ export function quick_sort(arr, low, high, dir = "asc") {
         quick_sort(arr, low, pi - 1);
         quick_sort(arr, pi + 1, high);
     }
-    return dir === "asc" ? arr : arr.reverse();
+    return dir === 'asc' ? arr : arr.reverse();
 }

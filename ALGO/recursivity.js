@@ -26,4 +26,3 @@ export function delete_k_from_ll(ll, k) {
     ll.next = delete_k_from_ll(ll.next, k - 1);
     return ll;
 }
-
